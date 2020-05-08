@@ -18,12 +18,20 @@ class TrafficLightMachine(StateMachine):
     emergency1 = green.to(red)
     emergency2 = yellow.to(red)
 
-    # nicer way - using 'reverse transitions; - see https://github.com/fgmacedo/python-statemachine/pull/254 
+    # nicer way
     emergency = (
         green.to(red) |
         yellow.to(red) |
         red.to(red)
     )
+
+    # even nicer way - using 'reverse transitions' - see https://github.com/fgmacedo/python-statemachine/pull/254 
+    emergencyA = red.from_(
+        green,
+        yellow,
+        red
+    )
+
 
 t = TrafficLightMachine()
 print(t.current_state)
@@ -82,5 +90,36 @@ assert t.is_red
 assert t.is_red
 t.emergency()
 assert t.is_red
+
+# Evemn nicer way - can be in any state, and call the emergencyA transition.
+t.go()
+assert t.is_green
+t.emergencyA()
+assert t.is_red
+
+t.go()
+t.slowdown()
+assert t.is_yellow
+t.emergencyA()
+assert t.is_red
+
+assert t.is_red
+t.emergencyA()
+assert t.is_red
+
+# reporting state values
+print('machine is', t)
+print('state is', t.current_state)  # big fat object
+print('state (succinct) is', t.current_state.value) # nice short string e.g. 'red'
+
+# force setting a state
+# using the transition that lists all possibilities, e.g. emergencyA is one solution
+# but for brute force just re-init
+t = TrafficLightMachine()
+print(t.current_state.value)
+
+t = TrafficLightMachine(start_value='yellow')
+print(t.current_state.value)
+
 
 print("done.")
