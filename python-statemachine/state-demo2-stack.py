@@ -44,6 +44,14 @@ t.throw_rock_push()
 assert t.current_state == t.broken
 t.evening()
 assert t.current_state == t.buzzing
+t.day()
+assert t.current_state == t.broken
+
+# test two power surges in a row
+t.powersurge()
+assert t.current_state == t.buzzing
+t.powersurge()
+assert t.current_state == t.sparking
 
 # print(t.current_state)
 # print(t.green)
