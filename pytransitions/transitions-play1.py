@@ -1,4 +1,4 @@
-from transitions import Machine
+from transitions import Machine  # https://github.com/pytransitions/transitions
 # Set up logging; The basic log level will be DEBUG
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -20,7 +20,14 @@ transitions = [
                      'yellow',
                      'red'],    'broken'],
     ['evening',      'broken',  'buzzing'],
-    # ['powersurge',  ['broken'], 'buzzing'], # how to broken.to(buzzing) | buzzing.to(sparking)
+    ['day',         ['sparking', 
+                     'buzzing'], 'broken'],
+
+    # cannot do this, must use 'add_transition' calls for this multi stuff
+    # 
+    # ['powersurge',  ['broken', 
+    #                  'buzzing'], ['buzzing', 
+    #                               'sparking']],
 ]
 # transitions = [
 #     { 'trigger': 'slowdown',    'source': 'green',          'dest': 'yellow'},
@@ -34,8 +41,10 @@ machine = Machine(t, states=states, transitions=transitions, initial='green')
 # Transitioning from multiple states via the same trigger - pity can't specify this in the transitions structure
 machine.add_transition('powersurge', ['broken'], 'buzzing')
 machine.add_transition('powersurge', 'buzzing', 'sparking')
-machine.add_transition('day', 'sparking', 'broken')
-machine.add_transition('day', 'buzzing', 'broken')
+
+# this is not needed - figured out how to do it in the transition data structure directly
+# machine.add_transition('day', 'sparking', 'broken')
+# machine.add_transition('day', 'buzzing', 'broken')
 
 print(t.state)
 assert t.state == 'green'
