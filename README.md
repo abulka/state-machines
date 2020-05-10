@@ -1,10 +1,10 @@
 # State Machine Experiments
 
-[python-statemachine · PyPI](https://pypi.org/project/python-statemachine/) <- this is the one I'm using, see subdir `python-statemachine`
-
-## 1. python-statemachine - library
+## 1. python-statemachine
 
 https://pypi.org/project/python-statemachine/ 
+
+This library is pretty nice!
 
 Reporting state values
 
@@ -118,11 +118,13 @@ assert t.current_state == t.yellow
 ```
 
 
-# 2. transitions - library
+# 2. transitions
 
 https://github.com/pytransitions/transitions
 
-This is pretty good, but even though it supports nested states, to get out of a nested state you need to trigger into some **specific** state - which is not push pop.  Want to pop to whatever the previous state was, not to a specific state.
+This library is pretty good, and even has extenstion and diagramming. 
+
+But even though it supports nested states, to get out of a nested state you need to trigger into some **specific** state - which is not push pop.  Want to pop to whatever the previous state was, not to a specific state.
 
 Hacked it anyway in a similar way to my 'python-state-machine' library implementation.
 
